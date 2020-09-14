@@ -36,7 +36,11 @@ export class GitpodPluginSupport extends HostedPluginSupport implements GitpodPl
     async resolve(params: ResolvePluginsParams): Promise<ResolvedPlugins> {
         const info = await this.infoProvider.getInfo();
         const { server } = await this.serviceProvider.getService();
-        return await server.resolvePlugins(info.workspaceId, params);
+        return await server.resolvePlugins({
+            workspaceId: info.workspaceId,
+            builtins: params.builtins,
+            config: params.config,
+        });
     }
 
     protected deployProgress: Promise<Progress> | undefined;
